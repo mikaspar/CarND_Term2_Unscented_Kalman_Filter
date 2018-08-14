@@ -19,9 +19,9 @@ This project includes source files included in folder src:
 
 
 [//]: # (Image References)
-[image1]: ./Docs/RMSE_BOTH.JPG
-[image2]: ./Docs/RMSE_RADAR.JPG
-[image3]: ./Docs/RMSE_LIDAR.JPG
+[image1]: ./ukf_meas.jpg
+[image2]: ./nis_radar.JPG
+[image3]: ./nis_laser.JPG
 
 ## Result
 I obtained following resultw when using both Radar and Lidar data for the position and velocity estimation:
@@ -30,17 +30,17 @@ I obtained following resultw when using both Radar and Lidar data for the positi
 
 * blue circles - position derived from radar mesurements ( converted from ro, theta => x,y)
 
-* green triangles - position estimated by EKF
+* green triangles - position estimated by UKF
 
 ![][image1] 
 
-Using a measurement of one sensor only leads to lower accuracy of the estimate.
+NIS calculation gives following results:
 
-Radar only:
+Radar NIS:
 ![][image2] 
 
 
-Lidar only:
+Lidar NIS:
 ![][image3] 
 
-
+NIS for both sensors show consistent results corresponding to their DoF.
