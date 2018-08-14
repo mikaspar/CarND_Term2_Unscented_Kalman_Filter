@@ -37,10 +37,12 @@ I obtained following resultw when using both Radar and Lidar data for the positi
 NIS calculation gives following results:
 
 Radar NIS:
+
 ![][image2] 
 
 
 Lidar NIS:
+
 ![][image3] 
 
 NIS for both sensors show consistent results corresponding to their DoF.
