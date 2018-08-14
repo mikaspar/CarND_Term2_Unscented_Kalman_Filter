@@ -7,7 +7,7 @@ This project involves the Term 2 Simulator which can be downloaded [here](https:
 
 This project includes source files included in folder src:
 
-* main.cpp -  establishes the connection with simulator, reads out input data and writes the vehicle position estimateted by UKF
+* main.cpp -  establishes the connection with simulator, reads out input data and writes the vehicle position estimated by UKF
 
 * ukf.cpp - initializes and desribes the system states and covariances. Defines and calls the prediction and update steps. 
 
@@ -24,7 +24,7 @@ This project includes source files included in folder src:
 [image3]: ./nis_laser.jpg
 
 ## Result
-I obtained following resultw when using both Radar and Lidar data for the position and velocity estimation:
+I obtained following results when using both Radar and Lidar data for the position and velocity estimation:
 
 * red circles - position derived lidar measuremets
 
