@@ -1,6 +1,7 @@
 #include "ukf.h"
 #include "Eigen/Dense"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 using Eigen::MatrixXd;
@@ -12,6 +13,8 @@ using std::vector;
  * This is scaffolding, do not modify
  */
 UKF::UKF() {
+	
+  
 
   is_initialized = false;
 
@@ -172,7 +175,8 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   float dt = (meas_package.timestamp_ - previous_timestamp)/ 1000000.0 ;
 
   previous_timestamp = meas_package.timestamp_;
-
+  
+  
   Prediction(dt);
 
   // UpdateRadar
@@ -181,6 +185,17 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
 
         UpdateRadar(meas_package);
+		
+		ofstream myfile;
+  
+		myfile.open ("output_file.txt", ios_base::app);	
+  
+		if (myfile.is_open()){
+		myfile << previous_timestamp << ',';
+		myfile << "R" << ',';
+		myfile << NIS_radar << '\n';
+		}
+		myfile.close();
   }
  }
 
@@ -189,6 +204,17 @@ if (use_laser == true) {
   if (meas_package.sensor_type_ == MeasurementPackage::LASER) {
 
         UpdateLidar(meas_package);
+		
+		ofstream myfile;
+  
+		myfile.open ("output_file.txt", ios_base::app);	
+  
+		if (myfile.is_open()){
+		myfile << previous_timestamp << ',';
+		myfile << "L" << ',';
+		myfile << NIS_laser << '\n';
+		}
+		myfile.close();
   }
  }
 }
@@ -329,18 +355,21 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
     z_meas(1) = meas_package.raw_measurements_(1);
   
 	
-	VectorXd y = z_meas - (H_laser_ * x_);
+	VectorXd y_ = z_meas - (H_laser_ * x_); //(z - z_pred_) 
 	MatrixXd H_trans = H_laser_.transpose();
-	MatrixXd S = H_laser_ * P_ * H_trans + R_laser_;
-	MatrixXd S_inv = S.inverse();
-	MatrixXd K = P_ * H_trans * S_inv;
+	MatrixXd S_ = H_laser_ * P_ * H_trans + R_laser_;
+	MatrixXd S_inv = S_.inverse();
+	MatrixXd K_ = P_ * H_trans * S_inv;
 
 	// Updated State and State Covariance
 	long x_size = x_.size();
 	MatrixXd I = MatrixXd::Identity(x_size, x_size);
-	x_ = x_ + (K * y);
-	P_ = (I - K * H_laser_) * P_;
- 
+	x_ = x_ + (K_ * y_);
+	P_ = (I - K_ * H_laser_) * P_;
+	
+	//NIS Lidar
+    NIS_laser = y_.transpose() * S_inv * y_;
+	
 }
 
 
@@ -455,8 +484,9 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   x_ = x_ + K_ * z_diff_;
   P_ = P_ - K_*S_*K_.transpose();
 
-  //NIS Radar Update
+  //NIS Radar
   NIS_radar = z_diff_.transpose() * S_.inverse() * z_diff_;
-
+  
+  
 
 }
