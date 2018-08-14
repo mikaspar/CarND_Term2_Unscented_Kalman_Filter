@@ -20,8 +20,8 @@ This project includes source files included in folder src:
 
 [//]: # (Image References)
 [image1]: ./ukf_meas.jpg
-[image2]: ./nis_radar.JPG
-[image3]: ./nis_laser.JPG
+[image2]: ./nis_radar.jpg
+[image3]: ./nis_laser.jpg
 
 ## Result
 I obtained following resultw when using both Radar and Lidar data for the position and velocity estimation:
